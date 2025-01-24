@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: database
+    environment:
+      POSTGRES_USER: your_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: dht_nodes
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://your_user:your_password@database:5432/dht_nodes
+      AUTH_TOKEN: your-secret-token-for-authentication
+      DB_USER: your_user
+      DB_HOST: database
+      DB_DATABASE: dht_nodes
+      DB_PASSWORD: your_password
+      DB_PORT: 5432
+    ports:
+      - "3005:3005"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./bittorrent-dht-crawler-frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    environment:
+      REACT_APP_API_BASE_URL: http://backend:3005
+      REACT_APP_AUTH_TOKEN: your-secret-token-for-authentication
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge

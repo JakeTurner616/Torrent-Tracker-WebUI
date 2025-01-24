@@ -1,0 +1,18 @@
+/* Example CSS */
+.peer-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  
+  .peer-table th,
+  .peer-table td {
+    padding: 12px 20px;
+    text-align: left;
+  }
+  /* More styles here */
+  
+  

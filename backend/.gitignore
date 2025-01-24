@@ -1,0 +1,9 @@
+# Node modules
+node_modules/
+bitorrent-dht-crawler-frontend/node_modules/
+
+database/postgres_data/
+
+Geo-ASN-Databases/
+
+.env

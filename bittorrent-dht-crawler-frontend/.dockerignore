@@ -1,0 +1,26 @@
+# Node modules and log files
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Build output
+build
+/dist
+
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Temporary files
+*.tmp
+*.cache

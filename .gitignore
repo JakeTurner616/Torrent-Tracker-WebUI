@@ -1,0 +1,6 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+/bittorrent-dht-crawler-frontend/node_modules
+/backend/node_modules
+/database/postgres_data/
+/backend/Geo-ASN-Databases/
