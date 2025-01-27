@@ -8,7 +8,7 @@ export const handleWebSocketMessage = (ws, message, stats) => {
 
         switch (data.action) {
             case "start":
-                const { workers = 4, maxListeners = 120 } = data;
+                const { workers = 4, maxListeners = 60 } = data;
                 startSession(workers, maxListeners).then(() => {
                     ws.send(JSON.stringify({ action: "start", message: "DHT session started." }));
                 });

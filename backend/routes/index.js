@@ -35,22 +35,7 @@ router.use("/auth", authRoutes); // Mount authentication routes
 // Root route for listing and testing API routes
 router.get("/", (req, res) => {
     const apiRoutes = [
-        { method: "GET", path: "/api/infohashes/top-infohashes", description: "Fetch the top 10 infohashes by peer count" },
-        { method: "GET", path: "/api/peers/unique?host=120.155.52.253", description: "Fetch unique peers for a given host (IP)" },
-        { method: "GET", path: "/api/peers/:ip", description: "Fetch peers for a specific IP address" },
-        { method: "GET", path: "/api/top-matched-infohashes", description: "Fetch top matched infohashes for the top 10 IPs" },
-        { method: "GET", path: "/api/peers/neighboring-blocks/:ip", description: "Find neighboring IP blocks for a specific IP" },
-        { method: "GET", path: "/api/infohashes", description: "Fetch all infohashes for an IP" },
-        { method: "POST", path: "/api/infohashes", description: "Save a new infohash to the database" },
-        { method: "DELETE", path: "/api/infohashes", description: "Delete multiple infohashes by their IDs" },
-        { method: "GET", path: "/api/stats", description: "Fetch database statistics" },
-        { method: "POST", path: "/api/probe/start", description: "Start a probe session for DHT lookups" },
-        { method: "POST", path: "/api/probe/stop", description: "Stop the ongoing probe session" },
-        { method: "POST", path: "/api/upload-torrent", description: "Upload a .torrent file or magnet link" },
-        { method: "DELETE", path: "/admin/tools/prune", description: "Prune the peers table and reset its identity" },
-        { method: "POST", path: "/admin/backup", description: "Create and download a backup of database tables as a .zip file" },
-        { method: "GET", path: "/en/summary", description: "Fetch a summary of database statistics in the server's timezone" },
-        { method: "GET", path: "/api/matched_infohashes/:ip?page=1&limit=10", description: "Fetch matched infohashes for a given IP with pagination (page and limit)" }
+ // api routes
     ];
 
     const htmlResponse = `
@@ -93,7 +78,7 @@ router.get("/", (req, res) => {
                 <h2>Test POST or DELETE Routes</h2>
                 <form action="/api/probe/start" method="POST" target="_blank">
                     <label>POST /api/probe/start:</label><br />
-                    <textarea name="json" placeholder='{ "workers": 4, "maxListeners": 120 }' required></textarea><br />
+                    <textarea name="json" placeholder='{ "workers": 4, "maxListeners": 60 }' required></textarea><br />
                     <button type="submit">Test Start Probe</button>
                 </form>
                 <form action="/api/probe/stop" method="POST" target="_blank">

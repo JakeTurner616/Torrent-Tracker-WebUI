@@ -22,7 +22,7 @@ wsServer.on("connection", (ws) => {
             const data = JSON.parse(message);
 
             if (data.action === "start") {
-                const { workers = 4, maxListeners = 120 } = data;
+                const { workers = 4, maxListeners = 60 } = data;
                 startProbeSession(workers, maxListeners, wsServer);
             } else if (data.action === "stop") {
                 stopProbeSession();

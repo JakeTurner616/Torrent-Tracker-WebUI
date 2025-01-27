@@ -116,7 +116,7 @@ const queryTrackers = async (infoHash) => {
         }, 15000);
     });
 };
-export const startProbeSession = async (workers = 4, maxListeners = 120, pipelines = []) => {
+export const startProbeSession = async (workers = 4, maxListeners = 60, pipelines = []) => {
     if (stats.running) {
         logger.warn("Probe session is already running.");
         return;

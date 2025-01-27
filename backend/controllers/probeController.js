@@ -3,7 +3,7 @@ import { startProbeSession, stopProbeSession } from "../services/probeService.js
 
 export const startProbe = async (req, res) => {
     try {
-        const { workers = 4, maxListeners = 120, pipelines = ["DHT Crawl"] } = req.body;
+        const { workers = 4, maxListeners = 60, pipelines = ["DHT Crawl"] } = req.body;
 
         // Validate pipelines
         const validPipelines = ["DHT Crawl", "Query Trackers"];

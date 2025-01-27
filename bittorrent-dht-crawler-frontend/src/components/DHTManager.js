@@ -11,7 +11,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const DHTManager = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [workers, setWorkers] = useState(4);
-    const [maxListeners, setMaxListeners] = useState(120);
+    const [maxListeners, setMaxListeners] = useState(60);
     const [selectedPipelines, setSelectedPipelines] = useState(["DHT Crawl"]);
     const pipelineOptions = [
         { name: "DHT Crawl", description: "Crawls the distributed hash table for peers." },
