@@ -29,10 +29,12 @@
 
    Use docker to easily self host the application.
 
-## Environment Variables ⚙️
+## Environment Variables for testing ⚙️
 
-- `REACT_APP_API_BASE_URL`: Backend API URL (default: `http://localhost:3005`)
-- `REACT_APP_AUTH_TOKEN`: Authentication token for API requests.
+   ```../backend/.env
+   REACT_APP_API_BASE_URL: http://backend:3005
+   REACT_APP_AUTH_TOKEN: your-secret-token-for-authentication
+   ```
 
 ## Available Scripts
 
