@@ -27,6 +27,7 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgres://your_user:your_password@database:5432/dht_nodes
       AUTH_TOKEN: your-secret-token-for-authentication
+      ADMIN_PASSWORD: your-secure-admin-password
       DB_USER: your_user
       DB_HOST: database
       DB_DATABASE: dht_nodes
