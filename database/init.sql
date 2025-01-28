@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS peers (
     as_organization TEXT,
     country TEXT,
     city TEXT,
+    latitude DOUBLE PRECISION, -- New field for latitude
+    longitude DOUBLE PRECISION, -- New field for longitude
     discovered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (infoHash) REFERENCES infohashes(infoHash)
 );
@@ -35,6 +37,8 @@ CREATE TABLE IF NOT EXISTS tracker_peers (
     as_organization TEXT,
     country TEXT,
     city TEXT,
+    latitude DOUBLE PRECISION, -- Host latitude
+    longitude DOUBLE PRECISION, -- Host longitude
     tracker TEXT NOT NULL,
     seeders INTEGER,
     leechers INTEGER,

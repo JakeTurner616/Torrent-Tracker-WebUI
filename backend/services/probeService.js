@@ -233,18 +233,20 @@ const performDHTLookups = async () => {
                     try {
                         const { host, port } = peer;
                         if (!host || !port) return;
-                
-                        let geoData = { city: null, country: null, asn: null };
-                
+
+                        let geoData = { city: null, country: null, asn: null, latitude: null, longitude: null };
+
                         // Lookup city and country data
                         try {
                             const cityData = cityReader.city(host);
                             geoData.city = cityData.city?.names?.en || null;
                             geoData.country = cityData.country?.names?.en || null;
+                            geoData.latitude = cityData.location?.latitude || null;
+                            geoData.longitude = cityData.location?.longitude || null;
                         } catch (error) {
                             logger.warn(`City lookup failed for IP ${host}: ${error.message}`);
                         }
-                
+
                         // Lookup ASN data
                         try {
                             const asnData = asnReader.asn(host);
@@ -252,7 +254,7 @@ const performDHTLookups = async () => {
                         } catch (error) {
                             logger.warn(`ASN lookup failed for IP ${host}: ${error.message}`);
                         }
-                
+
                         // Save peer data with GeoIP information
                         await savePeerData({
                             host,
@@ -262,8 +264,10 @@ const performDHTLookups = async () => {
                             city: geoData.city,
                             country: geoData.country,
                             asn: geoData.asn,
+                            latitude: geoData.latitude,
+                            longitude: geoData.longitude,
                         });
-                
+
                         stats.matchesFound++;
                     } catch (error) {
                         logger.error(`Error saving peer for infoHash ${infoHash}: ${error.message}`);

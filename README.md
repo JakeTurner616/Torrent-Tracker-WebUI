@@ -21,6 +21,7 @@ By leveraging DHT and tracker data, this tool allows for the analysis of torrent
 2. Set admin password and auth secret via the compose file:
 
    ```docker-compose
+      ADMIN_PASSWORD: your-secure-admin-password
       AUTH_TOKEN: your-secret-token-for-authentication
       DB_USER: your_user
       DB_HOST: database # Docker network
@@ -113,24 +114,28 @@ Stores information about individual peers.
 | `as_organization` | `TEXT`      | ASN organization name.          |
 | `country`         | `TEXT`      | Country ISO code.               |
 | `city`            | `TEXT`      | City name.                      |
+| `latitude`         | `DOUBLE PRECISION` | Latitude of the city.           |
+| `longitude`        | `DOUBLE PRECISION` | Longitude of the city.          |
 | `discovered_at`   | `TIMESTAMP` | Time the peer was recorded.     |
 
 ### 3. `tracker_peers` 📡🔗📊
 
-Logs tracker and torrent-specific data.
+Stores information about individual peers announced by public trackers.
 
-| Column            | Type        | Description                     |
-| ----------------- | ----------- | ------------------------------- |
-| `infoHash`        | `TEXT`      | Associated torrent infoHash.    |
-| `host`            | `TEXT`      | Peer IP address.                |
-| `asn`             | `INTEGER`   | Autonomous System Number (ASN). |
-| `as_organization` | `TEXT`      | ASN organization name.          |
-| `country`         | `TEXT`      | Country ISO code.               |
-| `city`            | `TEXT`      | City name.                      |
-| `tracker`         | `TEXT`      | Tracker URL.                    |
-| `seeders`         | `INTEGER`   | Seeder count.                   |
-| `leechers`        | `INTEGER`   | Leecher count.                  |
-| `discovered_at`   | `TIMESTAMP` | Time the data was recorded.     |
+| Column            | Type              | Description                     |
+| ------------------ | ----------------- | ------------------------------- |
+| `infoHash`         | `TEXT`           | Associated torrent infoHash.    |
+| `host`             | `TEXT`           | Peer IP address.                |
+| `asn`              | `INTEGER`        | Autonomous System Number (ASN). |
+| `as_organization`  | `TEXT`           | ASN organization name.          |
+| `country`          | `TEXT`           | Country ISO code.               |
+| `city`             | `TEXT`           | City name.                      |
+| `latitude`         | `DOUBLE PRECISION` | Latitude of the city.           |
+| `longitude`        | `DOUBLE PRECISION` | Longitude of the city.          |
+| `tracker`          | `TEXT`           | Tracker URL.                    |
+| `seeders`          | `INTEGER`        | Seeder count.                   |
+| `leechers`         | `INTEGER`        | Leecher count.                  |
+| `discovered_at`    | `TIMESTAMP`      | Time the data was recorded.     |
 
 ---
 

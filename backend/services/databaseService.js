@@ -323,12 +323,16 @@ export const saveTrackerData = async (infoHash, trackerData, metadata) => {
                 let city = null,
                     country = null,
                     asn = null,
-                    asOrganization = null;
+                    asOrganization = null,
+                    latitude = null,
+                    longitude = null;
 
                 try {
                     const geoCity = cityReader.city(host);
                     city = geoCity.city?.names?.en || null;
                     country = geoCity.country?.isoCode || null;
+                    latitude = geoCity.location?.latitude || null;
+                    longitude = geoCity.location?.longitude || null;
                 } catch (error) {
                     logger.warn(`GeoIP City lookup failed for ${host}: ${error.message}`);
                 }
@@ -344,22 +348,24 @@ export const saveTrackerData = async (infoHash, trackerData, metadata) => {
                 // Prepare the query for tracker_peers
                 const query = `
                     INSERT INTO tracker_peers (
-                        infoHash, host, asn, as_organization, country, city, tracker, seeders, leechers, discovered_at
+                        infoHash, host, asn, as_organization, country, city, latitude, longitude, tracker, seeders, leechers, discovered_at
                     )
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, CURRENT_TIMESTAMP)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, CURRENT_TIMESTAMP)
                     ON CONFLICT (infoHash, host, tracker) DO NOTHING;
                 `;
                 queries.push(
                     client.query(query, [
-                        infoHash,     // Torrent infoHash
-                        host,         // Peer host
-                        asn,          // ASN number
+                        infoHash,       // Torrent infoHash
+                        host,           // Peer host
+                        asn,            // ASN number
                         asOrganization, // ASN organization name
-                        country,      // Country ISO code
-                        city,         // City name
-                        trackerUrl,   // Tracker URL
-                        seeders,      // Number of seeders
-                        leechers,     // Number of leechers
+                        country,        // Country ISO code
+                        city,           // City name
+                        latitude,       // Latitude
+                        longitude,      // Longitude
+                        trackerUrl,     // Tracker URL
+                        seeders,        // Number of seeders
+                        leechers,       // Number of leechers
                     ])
                 );
             }
@@ -374,6 +380,7 @@ export const saveTrackerData = async (infoHash, trackerData, metadata) => {
         client.release();
     }
 };
+
 /**
  * Save peer data to the peers table.
  * @param {Object} param0 - Peer data object.
@@ -385,13 +392,17 @@ export const savePeerData = async ({ host, port, infoHash, title }) => {
         let city = null,
             country = null,
             asn = null,
-            asOrganization = null;
+            asOrganization = null,
+            latitude = null,
+            longitude = null;
 
         // Resolve GeoIP City data
         try {
             const geoCity = cityReader.city(host);
             city = geoCity.city?.names?.en || null; // Get city name in English
             country = geoCity.country?.isoCode || null; // Get country ISO code
+            latitude = geoCity.location?.latitude || null; // Get latitude
+            longitude = geoCity.location?.longitude || null; // Get longitude
         } catch (error) {
             logger.warn(`GeoIP City lookup failed for ${host}: ${error.message}`);
         }
@@ -407,8 +418,8 @@ export const savePeerData = async ({ host, port, infoHash, title }) => {
 
         // Insert peer data into the `peers` table
         const query = `
-            INSERT INTO peers (host, port, infoHash, title, asn, as_organization, country, city, discovered_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP)
+            INSERT INTO peers (host, port, infoHash, title, asn, as_organization, country, city, latitude, longitude, discovered_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CURRENT_TIMESTAMP)
             ON CONFLICT DO NOTHING;
         `;
         await client.query(query, [
@@ -420,6 +431,8 @@ export const savePeerData = async ({ host, port, infoHash, title }) => {
             asOrganization, // ASN organization name
             country,        // Country ISO code
             city,           // City name
+            latitude,       // Latitude
+            longitude,      // Longitude
         ]);
 
         logger.info(`Saved peer: ${host}:${port} for infoHash ${infoHash}`);
@@ -430,7 +443,6 @@ export const savePeerData = async ({ host, port, infoHash, title }) => {
         client.release();
     }
 };
-
 /**
  * Get the total number of peers for a given IP.
  * @param {string} ip - The IP address to query.
